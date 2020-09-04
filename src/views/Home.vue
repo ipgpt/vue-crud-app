@@ -10,6 +10,15 @@
 import Table from "../components/Table";
 export default {
   name: "App",
+  mounted() {
+    if (localStorage.getItem("users")) {
+      try {
+        this.users = JSON.parse(localStorage.getItem("users"));
+      } catch (e) {
+        localStorage.removeItem("users");
+      }
+    }
+  },
   data() {
     return {
       users: [
@@ -23,14 +32,20 @@ export default {
   },
   methods: {
     deleteUser(email) {
-      this.users = this.users.filter(user => user.email !== email);
+      this.users = this.users.filter((user) => user.email !== email);
+      this.saveUsers();
     },
     addUser(user) {
-      console.log('add ', user);
+      this.users.push(user);
+      this.saveUsers();
     },
     editUser(user) {
-      console.log('edit ', user);
-    }
-  }
+      console.log("edit ", user);
+    },
+    saveUsers() {
+      const parsed = JSON.stringify(this.users);
+      localStorage.setItem("users", parsed);
+    },
+  },
 };
 </script>
