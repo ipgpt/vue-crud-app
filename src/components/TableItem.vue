@@ -2,7 +2,7 @@
   <tr>
     <td v-for="(data, i) of user" v-bind:key="i">{{data}}</td>
     <td>
-      <button>Delete</button>
+      <button v-on:click="$emit('delete-user', user.email)">Delete</button>
     </td>
     <td>
       <button>Edit</button>
@@ -17,6 +17,7 @@ export default {
       type: Object,
       required: true,
     },
+    deleteTodo: Function
   },
   filters: {
     upperCase(value) {

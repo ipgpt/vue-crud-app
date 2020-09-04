@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table>
+    <table v-if="users.length">
       <thead>
         <th v-for="(column, i) of columns" v-bind:key="i">{{column}}</th>
       </thead>
@@ -9,10 +9,11 @@
           v-for="user of users"
           v-bind:key="user.id"
           v-bind:user="user"
-          v-on:remove-todo="deleteUser"
+          v-on:delete-user="deleteUser"
         />
       </tbody>
     </table>
+    <p v-else>There are no users to display...</p>
   </div>
 </template>
 
@@ -29,8 +30,8 @@ export default {
     TableItem,
   },
   methods: {
-    deleteTodo(id) {
-      this.$emit("delete-user", id);
+    deleteUser(email) {
+      this.$emit("delete-user", email);
     },
   },
 };

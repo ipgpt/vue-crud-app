@@ -1,8 +1,8 @@
 <template>
   <div>
     <h2>Home page</h2>
-    <router-link to="/user">Add user</router-link>
-    <Table v-bind:users="users" />
+    <router-link to="/user" tag="button">Add user</router-link>
+    <Table v-bind:users="users" v-on:delete-user="deleteUser" />
   </div>
 </template>
 
@@ -21,5 +21,10 @@ export default {
   components: {
     Table,
   },
+  methods: {
+    deleteUser(email) {
+      this.users = this.users.filter(user => user.email !== email);
+    }
+  }
 };
 </script>
