@@ -4,6 +4,20 @@
     <button @click="moveToHomePage">Back to Homepage</button>
     <hr />
     <p v-if="errorMessage">{{errorMessage}}</p>
+    <p v-else-if="errorEmptyJSON">{{errorEmptyJSON}}</p>
+    <textarea
+      rows="8"
+      v-model="jsonData"
+      placeholder='[
+  {
+    "name": "Tony",
+    "surname": "Hawk",
+    "phone": "888",
+    "email": "8@8.8"
+  }
+]'
+    ></textarea>
+    <button @click="parseJSON">Import JSON</button>
     <form @submit.prevent="onSubmit">
       <label>
         Name
@@ -43,10 +57,12 @@ export default {
     return {
       users: [],
       user: null,
+      jsonData: null,
       name: "",
       surname: "",
       phone: "",
       email: "",
+      errorEmptyJSON: "",
       errorMessage: "",
     };
   },
@@ -73,6 +89,19 @@ export default {
     moveToHomePage() {
       localStorage.removeItem("editUser");
       router.push("/");
+    },
+    parseJSON() {
+      const dataFromJSON = this.jsonData ? JSON.parse(this.jsonData) : null;
+      if (dataFromJSON) {
+        this.name = dataFromJSON[0].name || this.name;
+        this.surname = dataFromJSON[0].surname || this.surname;
+        this.phone = dataFromJSON[0].phone || this.phone;
+        this.email = dataFromJSON[0].email || this.email;
+        this.jsonData = null;
+        this.errorEmptyJSON = "";
+      } else {
+        this.errorEmptyJSON = "JSON is empty!";
+      }
     },
     onSubmit() {
       if (
@@ -133,5 +162,10 @@ form {
 }
 input {
   margin: 5px;
+}
+textarea {
+  display: block;
+  width: 280px;
+  margin: 0 auto;
 }
 </style>
