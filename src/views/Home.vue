@@ -24,6 +24,12 @@ export default {
   methods: {
     deleteUser(email) {
       this.users = this.users.filter(user => user.email !== email);
+    },
+    addUser(user) {
+      console.log('add ', user);
+    },
+    editUser(user) {
+      console.log('edit ', user);
     }
   }
 };

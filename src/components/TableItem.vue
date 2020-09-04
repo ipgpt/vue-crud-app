@@ -16,8 +16,7 @@ export default {
     user: {
       type: Object,
       required: true,
-    },
-    deleteTodo: Function
+    }
   },
   filters: {
     upperCase(value) {
