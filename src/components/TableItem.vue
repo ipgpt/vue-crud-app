@@ -1,11 +1,11 @@
 <template>
   <tr>
-    <td v-for="(data, i) of user" v-bind:key="i">{{data}}</td>
+    <td v-for="(column, i) of columns" v-bind:key="i">{{user[column]}}</td>
     <td>
-      <button v-on:click="$emit('delete-user', user.email)">Delete</button>
+      <button v-on:click="$emit('delete-user', user.id)">Delete</button>
     </td>
     <td>
-      <button v-on:click="startEdit">Edit</button>
+      <button v-on:click="startEdit()">Edit</button>
     </td>
   </tr>
 </template>
@@ -16,6 +16,10 @@ export default {
   props: {
     user: {
       type: Object,
+      required: true,
+    },
+    columns: {
+      type: Array,
       required: true,
     },
   },

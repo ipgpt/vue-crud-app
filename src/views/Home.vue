@@ -33,8 +33,8 @@ export default {
       localStorage.removeItem("editUser");
       router.push("/user");
     },
-    deleteUser(email) {
-      this.users = this.users.filter((user) => user.email !== email);
+    deleteUser(id) {
+      this.users = this.users.filter((user) => user.id !== id);
       this.saveUsers();
     },
     addUser(user) {
@@ -43,7 +43,7 @@ export default {
     },
     editUser(updatedUser) {
       this.users = this.users.map((user) =>
-        user.email === updatedUser.email ? updatedUser : user
+        user.id === updatedUser.id ? updatedUser : user
       );
       this.saveUsers();
     },

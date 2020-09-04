@@ -9,6 +9,7 @@
           v-for="user of users"
           v-bind:key="user.id"
           v-bind:user="user"
+          v-bind:columns="columns.slice(0,4)"
           v-on:delete-user="deleteUser"
         />
       </tbody>

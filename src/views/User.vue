@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { nanoid } from "nanoid";
 import Home from "./Home";
 import router from "../router";
 export default {
@@ -82,6 +83,7 @@ export default {
       ) {
         this.errorMessage = "";
         const newUser = {
+          id: nanoid(),
           name: this.name,
           surname: this.surname,
           phone: this.phone,
@@ -103,6 +105,7 @@ export default {
       ) {
         this.errorMessage = "";
         const editedUser = {
+          id: this.user.id,
           name: this.user.name,
           surname: this.user.surname,
           phone: this.user.phone,
