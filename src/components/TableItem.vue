@@ -1,0 +1,30 @@
+<template>
+  <tr>
+    <td v-for="(data, i) of user" v-bind:key="i">{{data}}</td>
+    <td>
+      <button>Delete</button>
+    </td>
+    <td>
+      <button>Edit</button>
+    </td>
+  </tr>
+</template>
+
+<script>
+export default {
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+  },
+  filters: {
+    upperCase(value) {
+      return value.toUpperCase();
+    },
+  },
+};
+</script>
+
+<style scoped>
+</style>

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home";
-import Edit from "./views/Edit";
+import User from "./views/User";
 
 Vue.use(Router);
 
@@ -13,8 +13,8 @@ export default new Router({
       component: Home
     },
     {
-      path: "/edit",
-      component: Edit
+      path: "/User",
+      component: User
     }
   ]
 });
