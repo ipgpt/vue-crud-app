@@ -3,11 +3,18 @@
     <h2>User page</h2>
     <button class="button" @click="moveToHomePage">Back to Homepage</button>
     <hr />
-    <p v-if="errorJSON">{{errorJSON}}</p>
-    <textarea
-      rows="8"
-      v-model="jsonData"
-      placeholder='[
+    <div class="main-content">
+      <div class="main-content__item">
+        <p class="error-text" v-if="errorJSON">{{errorJSON}}</p>
+        <label>
+          Uploading data in JSON format
+          <br />
+          <br />
+          <textarea
+            class="json-textarea"
+            rows="8"
+            v-model="jsonData"
+            placeholder='[
   {
     "name": "Tony",
     "surname": "Hawk",
@@ -15,65 +22,94 @@
     "email": "1@1.1"
   }
 ]'
-    ></textarea>
-    <button class="button" @click="parseJSON">Import JSON</button>
-    <div v-if="errorForm.length">
-      <b>Please correct the following error(s):</b>
-      <ul>
-        <li v-for="(error, i) in errorForm" :key="i">{{ error }}</li>
-      </ul>
+          ></textarea>
+        </label>
+        <button class="button button-import-json" @click="parseJSON">Import JSON</button>
+        </div>
+        <div class="main-content__item">
+          <div class="error-text" v-if="errorForm.length">
+            <b>Error(s):</b>
+            <ul class="error-text__list">
+              <li v-for="(error, i) in errorForm" :key="i">{{ error }}</li>
+            </ul>
+          </div>
+          <form class="form" @submit.prevent="onSubmit">
+            <label>
+              Name
+              <input
+                class="form__field"
+                type="text"
+                pattern="^[a-zA-Z]+$"
+                placeholder="Tony"
+                v-if="user"
+                v-model="user.name"
+              />
+              <input
+                class="form__field"
+                type="text"
+                pattern="^[a-zA-Z]+$"
+                placeholder="Tony"
+                v-else
+                v-model="name"
+              />
+            </label>
+            <br />
+            <label>
+              Surname
+              <input
+                class="form__field"
+                type="text"
+                pattern="^[a-zA-Z]+$"
+                placeholder="Hawk"
+                v-if="user"
+                v-model="user.surname"
+              />
+              <input
+                class="form__field"
+                type="text"
+                pattern="^[a-zA-Z]+$"
+                placeholder="Hawk"
+                v-else
+                v-model="surname"
+              />
+            </label>
+            <br />
+            <label>
+              Phone
+              <input
+                class="form__field"
+                type="tel"
+                pattern="[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}"
+                placeholder="111-111-11-11"
+                v-if="user"
+                v-model="user.phone"
+              />
+              <input
+                class="form__field"
+                type="tel"
+                pattern="[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}"
+                placeholder="111-111-11-11"
+                v-else
+                v-model="phone"
+              />
+            </label>
+            <br />
+            <label>
+              Email
+              <input
+                class="form__field"
+                type="email"
+                placeholder="1@1.1"
+                v-if="user"
+                v-model="user.email"
+              />
+              <input class="form__field" type="email" placeholder="1@1.1" v-else v-model="email" />
+            </label>
+            <br />
+            <button class="button button-save" type="submit">Save</button>
+          </form>
+        </div>
     </div>
-    <form @submit.prevent="onSubmit">
-      <label>
-        Name
-        <input
-          type="text"
-          pattern="^[a-zA-Z]+$"
-          placeholder="Tony"
-          v-if="user"
-          v-model="user.name"
-        />
-        <input type="text" pattern="^[a-zA-Z]+$" placeholder="Tony" v-else v-model="name" />
-      </label>
-      <br />
-      <label>
-        Surname
-        <input
-          type="text"
-          pattern="^[a-zA-Z]+$"
-          placeholder="Hawk"
-          v-if="user"
-          v-model="user.surname"
-        />
-        <input type="text" pattern="^[a-zA-Z]+$" placeholder="Hawk" v-else v-model="surname" />
-      </label>
-      <br />
-      <label>
-        Phone
-        <input
-          type="tel"
-          pattern="[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}"
-          placeholder="111-111-11-11"
-          v-if="user"
-          v-model="user.phone"
-        />
-        <input
-          type="tel"
-          pattern="[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}"
-          placeholder="111-111-11-11"
-          v-else
-          v-model="phone"
-        />
-      </label>
-      <br />
-      <label>
-        Email
-        <input type="email" placeholder="1@1.1" v-if="user" v-model="user.email" />
-        <input type="email" placeholder="1@1.1" v-else v-model="email" />
-      </label>
-      <br />
-      <button class="button" type="submit">Save</button>
-    </form>
   </div>
 </template>
 
@@ -120,9 +156,11 @@ export default {
       router.push("/");
     },
     parseJSON() {
-      const dataFromJSON = this.jsonData ? JSON.parse(this.jsonData) : null;
+      const dataFromJSON = Array.isArray(this.jsonData)
+        ? JSON.parse(this.jsonData)
+        : this.jsonData;
       if (
-        Array.isArray(dataFromJSON) &&
+        Array.isArray(this.jsonData) &&
         String(dataFromJSON[0]) === "[object Object]"
       ) {
         this.name = dataFromJSON[0].name || this.name;
@@ -132,9 +170,9 @@ export default {
         this.jsonData = null;
         this.errorJSON = "";
       } else if (dataFromJSON) {
-        this.errorJSON = "Wrong structure of JSON";
+        this.errorJSON = "Error: Wrong structure of JSON!";
       } else {
-        this.errorJSON = "JSON is empty!";
+        this.errorJSON = "Error: JSON is empty!";
       }
     },
     checkFormAddUser() {
@@ -226,20 +264,55 @@ export default {
 </script>
 
 <style scoped>
-form {
-  width: 300px;
+.error-text {
+  width: 280px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  padding: 5px 0;
+  background: blue;
+  border: 1px solid white;
+}
+.error-text__list {
+  margin: 0;
+}
+.json-textarea {
+  width: 250px;
+  display: block;
+  margin: 0 auto;
+  resize: none;
+}
+.json-textarea,
+.form__field {
+  padding: 5px 10px;
+  border: 3px dashed white;
+  background-color: inherit;
+  color: inherit;
+}
+.form {
+  width: 280px;
   margin: 0 auto;
   text-align: end;
 }
-input {
-  margin: 5px;
+.form__field {
+  margin: 5px 0;
 }
-textarea {
-  display: block;
+.json-textarea::placeholder,
+.form__field::placeholder {
+  color: mediumspringgreen;
+}
+.button-import-json {
   width: 280px;
-  margin: 0 auto;
+  margin: 15px 0;
 }
-li {
-  list-style: none;
+.button-save {
+  width: 100%;
+  margin-top: 10px;
+}
+@media screen and (min-width: 600px) {
+  .main-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
 }
 </style>
