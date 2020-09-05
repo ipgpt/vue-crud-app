@@ -25,4 +25,14 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.button {
+  border: 2px solid black;
+  background-color: white;
+  padding: 5px 10px;
+  font-size: inherit;
+  font-weight: bold;
+  font-family: inherit;
+  text-transform: uppercase;
+  cursor: pointer;
+}
 </style>

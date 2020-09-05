@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Home page</h2>
-    <button @click="moveToUserPage">Add user</button>
+    <button class="button" @click="moveToUserPage">Add user</button>
     <hr>
     <Table v-bind:users="users" v-on:delete-user="deleteUser" />
   </div>

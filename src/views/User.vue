@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>User page</h2>
-    <button @click="moveToHomePage">Back to Homepage</button>
+    <button class="button" @click="moveToHomePage">Back to Homepage</button>
     <hr />
     <p v-if="errorJSON">{{errorJSON}}</p>
     <textarea
@@ -16,7 +16,7 @@
   }
 ]'
     ></textarea>
-    <button @click="parseJSON">Import JSON</button>
+    <button class="button" @click="parseJSON">Import JSON</button>
     <div v-if="errorForm.length">
       <b>Please correct the following error(s):</b>
       <ul>
@@ -72,7 +72,7 @@
         <input type="email" placeholder="1@1.1" v-else v-model="email" />
       </label>
       <br />
-      <input type="submit" value="Save" />
+      <button class="button" type="submit">Save</button>
     </form>
   </div>
 </template>

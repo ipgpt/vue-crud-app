@@ -2,7 +2,9 @@
   <div>
     <table class="table" v-if="users.length">
       <thead class="table__head">
-        <th class="table__head-cell" v-for="(column, i) of columns" :key="i">{{column}}</th>
+        <tr class="table__head-item">
+          <th class="table__head-cell" v-for="(column, i) of columns" :key="i">{{column}}</th>
+        </tr>
       </thead>
       <tbody class="table__body">
         <TableItem
@@ -40,6 +42,7 @@ export default {
 
 <style>
 .table {
+  width: 100%;
   margin: 0 auto;
   border: 3px dashed mediumspringgreen;
 }
@@ -58,5 +61,8 @@ export default {
 }
 .table__body-item:not(:last-of-type) .table__body-cell {
   border-bottom: 3px dashed mediumspringgreen;
+}
+.table__body-item:hover {
+  background: turquoise;
 }
 </style>

@@ -2,10 +2,10 @@
   <tr class="table__body-item">
     <td class="table__body-cell" v-for="(column, i) of columns" :key="i">{{user[column]}}</td>
     <td class="table__body-cell">
-      <button v-on:click="$emit('delete-user', user.id)">Delete</button>
+      <button class="button" v-on:click="$emit('delete-user', user.id)">Delete</button>
     </td>
     <td class="table__body-cell">
-      <button v-on:click="startEdit">Edit</button>
+      <button class="button" v-on:click="startEdit">Edit</button>
     </td>
   </tr>
 </template>
