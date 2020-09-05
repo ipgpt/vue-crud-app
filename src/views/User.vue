@@ -3,8 +3,7 @@
     <h2>User page</h2>
     <button @click="moveToHomePage">Back to Homepage</button>
     <hr />
-    <p v-if="errorMessage">{{errorMessage}}</p>
-    <p v-else-if="errorEmptyJSON">{{errorEmptyJSON}}</p>
+    <p v-if="errorJSON">{{errorJSON}}</p>
     <textarea
       rows="8"
       v-model="jsonData"
@@ -12,35 +11,65 @@
   {
     "name": "Tony",
     "surname": "Hawk",
-    "phone": "888",
-    "email": "8@8.8"
+    "phone": "111-111-11-11",
+    "email": "1@1.1"
   }
 ]'
     ></textarea>
     <button @click="parseJSON">Import JSON</button>
+    <div v-if="errorForm.length">
+      <b>Please correct the following error(s):</b>
+      <ul>
+        <li v-for="(error, i) in errorForm" :key="i">{{ error }}</li>
+      </ul>
+    </div>
     <form @submit.prevent="onSubmit">
       <label>
         Name
-        <input type="text" v-if="user" v-model="user.name" />
-        <input type="text" v-else v-model="name" />
+        <input
+          type="text"
+          pattern="^[a-zA-Z]+$"
+          placeholder="Tony"
+          v-if="user"
+          v-model="user.name"
+        />
+        <input type="text" pattern="^[a-zA-Z]+$" placeholder="Tony" v-else v-model="name" />
       </label>
       <br />
       <label>
         Surname
-        <input type="text" v-if="user" v-model="user.surname" />
-        <input type="text" v-else v-model="surname" />
+        <input
+          type="text"
+          pattern="^[a-zA-Z]+$"
+          placeholder="Hawk"
+          v-if="user"
+          v-model="user.surname"
+        />
+        <input type="text" pattern="^[a-zA-Z]+$" placeholder="Hawk" v-else v-model="surname" />
       </label>
       <br />
       <label>
         Phone
-        <input type="text" v-if="user" v-model="user.phone" />
-        <input type="text" v-else v-model="phone" />
+        <input
+          type="tel"
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}"
+          placeholder="111-111-11-11"
+          v-if="user"
+          v-model="user.phone"
+        />
+        <input
+          type="tel"
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}"
+          placeholder="111-111-11-11"
+          v-else
+          v-model="phone"
+        />
       </label>
       <br />
       <label>
         Email
-        <input type="text" v-if="user" v-model="user.email" />
-        <input type="text" v-else v-model="email" />
+        <input type="email" placeholder="1@1.1" v-if="user" v-model="user.email" />
+        <input type="email" placeholder="1@1.1" v-else v-model="email" />
       </label>
       <br />
       <input type="submit" value="Save" />
@@ -62,8 +91,8 @@ export default {
       surname: "",
       phone: "",
       email: "",
-      errorEmptyJSON: "",
-      errorMessage: "",
+      errorJSON: "",
+      errorForm: [],
     };
   },
   mounted() {
@@ -101,21 +130,66 @@ export default {
         this.phone = dataFromJSON[0].phone || this.phone;
         this.email = dataFromJSON[0].email || this.email;
         this.jsonData = null;
-        this.errorEmptyJSON = "";
+        this.errorJSON = "";
       } else if (dataFromJSON) {
-        this.errorEmptyJSON = "Wrong structure of JSON";
+        this.errorJSON = "Wrong structure of JSON";
       } else {
-        this.errorEmptyJSON = "JSON is empty!";
+        this.errorJSON = "JSON is empty!";
       }
     },
-    onSubmit() {
+    checkFormAddUser() {
       if (
         this.name.trim() &&
         this.surname.trim() &&
         this.phone.trim() &&
         this.email.trim()
       ) {
-        this.errorMessage = "";
+        return true;
+      }
+
+      this.errorForm = [];
+
+      if (!this.name) {
+        this.errorForm.push("Name required.");
+      }
+      if (!this.surname) {
+        this.errorForm.push("Surname required.");
+      }
+      if (!this.phone) {
+        this.errorForm.push("Phone required.");
+      }
+      if (!this.email) {
+        this.errorForm.push("Email required.");
+      }
+    },
+    checkFormEditUser() {
+      if (
+        this.user.name.trim() &&
+        this.user.surname.trim() &&
+        this.user.phone.trim() &&
+        this.user.email.trim()
+      ) {
+        return true;
+      }
+
+      this.errorForm = [];
+
+      if (!this.user.name) {
+        this.errorForm.push("Name required.");
+      }
+      if (!this.user.surname) {
+        this.errorForm.push("Surname required.");
+      }
+      if (!this.user.phone) {
+        this.errorForm.push("Phone required.");
+      }
+      if (!this.user.email) {
+        this.errorForm.push("Email required.");
+      }
+    },
+    onSubmit() {
+      if (this.checkFormAddUser()) {
+        this.errorForm = "";
         const newUser = {
           id: nanoid(),
           name: this.name,
@@ -128,16 +202,9 @@ export default {
         this.surname = "";
         this.phone = "";
         this.email = "";
-      } else {
-        this.errorMessage = "Not all fields are filled";
-      }
-      if (
-        this.user.name.trim() &&
-        this.user.surname.trim() &&
-        this.user.phone.trim() &&
-        this.user.email.trim()
-      ) {
-        this.errorMessage = "";
+        this.moveToHomePage();
+      } else if (this.user && this.checkFormEditUser()) {
+        this.errorForm = "";
         const editedUser = {
           id: this.user.id,
           name: this.user.name,
@@ -151,8 +218,7 @@ export default {
         this.user.surname = "";
         this.user.phone = "";
         this.user.email = "";
-      } else {
-        this.errorMessage = "Not all fields are filled";
+        this.moveToHomePage();
       }
     },
   },
@@ -172,5 +238,8 @@ textarea {
   display: block;
   width: 280px;
   margin: 0 auto;
+}
+li {
+  list-style: none;
 }
 </style>
