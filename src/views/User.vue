@@ -52,7 +52,7 @@ export default {
         phone: "",
         email: "",
       },
-      jsonData: null,
+      jsonData: "",
       errorJSON: "",
       errorForm: [],
     };
