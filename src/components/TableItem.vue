@@ -1,11 +1,11 @@
 <template>
   <tr>
-    <td v-for="(column, i) of columns" v-bind:key="i">{{user[column]}}</td>
+    <td v-for="(column, i) of columns" :key="i">{{user[column]}}</td>
     <td>
       <button v-on:click="$emit('delete-user', user.id)">Delete</button>
     </td>
     <td>
-      <button v-on:click="startEdit()">Edit</button>
+      <button v-on:click="startEdit">Edit</button>
     </td>
   </tr>
 </template>
@@ -25,8 +25,8 @@ export default {
   },
   methods: {
     startEdit() {
-      const parsed = JSON.stringify(this.user);
-      localStorage.setItem("editUser", parsed);
+      const parsedData = JSON.stringify(this.user);
+      localStorage.setItem("editUser", parsedData);
       router.push("user");
     },
   },

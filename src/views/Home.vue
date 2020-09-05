@@ -2,6 +2,7 @@
   <div>
     <h2>Home page</h2>
     <button @click="moveToUserPage">Add user</button>
+    <hr>
     <Table v-bind:users="users" v-on:delete-user="deleteUser" />
   </div>
 </template>
@@ -48,8 +49,8 @@ export default {
       this.saveUsers();
     },
     saveUsers() {
-      const parsed = JSON.stringify(this.users);
-      localStorage.setItem("users", parsed);
+      const parsedData = JSON.stringify(this.users);
+      localStorage.setItem("users", parsedData);
     },
   },
 };

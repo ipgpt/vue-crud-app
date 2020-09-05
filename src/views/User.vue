@@ -92,13 +92,18 @@ export default {
     },
     parseJSON() {
       const dataFromJSON = this.jsonData ? JSON.parse(this.jsonData) : null;
-      if (dataFromJSON) {
+      if (
+        Array.isArray(dataFromJSON) &&
+        String(dataFromJSON[0]) === "[object Object]"
+      ) {
         this.name = dataFromJSON[0].name || this.name;
         this.surname = dataFromJSON[0].surname || this.surname;
         this.phone = dataFromJSON[0].phone || this.phone;
         this.email = dataFromJSON[0].email || this.email;
         this.jsonData = null;
         this.errorEmptyJSON = "";
+      } else if (dataFromJSON) {
+        this.errorEmptyJSON = "Wrong structure of JSON";
       } else {
         this.errorEmptyJSON = "JSON is empty!";
       }

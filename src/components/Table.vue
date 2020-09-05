@@ -2,7 +2,7 @@
   <div>
     <table v-if="users.length">
       <thead>
-        <th v-for="(column, i) of columns" v-bind:key="i">{{column}}</th>
+        <th v-for="(column, i) of columns" :key="i">{{column}}</th>
       </thead>
       <tbody>
         <TableItem
