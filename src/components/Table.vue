@@ -1,10 +1,10 @@
 <template>
   <div>
-    <table v-if="users.length">
-      <thead>
-        <th v-for="(column, i) of columns" :key="i">{{column}}</th>
+    <table class="table" v-if="users.length">
+      <thead class="table__head">
+        <th class="table__head-cell" v-for="(column, i) of columns" :key="i">{{column}}</th>
       </thead>
-      <tbody>
+      <tbody class="table__body">
         <TableItem
           v-for="user of users"
           v-bind:key="user.id"
@@ -38,8 +38,25 @@ export default {
 };
 </script>
 
-<style scoped>
-table {
+<style>
+.table {
   margin: 0 auto;
+  border: 3px dashed mediumspringgreen;
+}
+.table__head-cell,
+.table__body-cell {
+  padding: 10px;
+}
+.table__head-cell {
+  text-transform: uppercase;
+  border-bottom: 3px dashed mediumspringgreen;
+  background: green;
+}
+.table__head-cell:not(:last-of-type),
+.table__body-cell:not(:last-of-type) {
+  border-right: 3px dashed mediumspringgreen;
+}
+.table__body-item:not(:last-of-type) .table__body-cell {
+  border-bottom: 3px dashed mediumspringgreen;
 }
 </style>
