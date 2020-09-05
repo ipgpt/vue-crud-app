@@ -32,7 +32,7 @@ export default {
   methods: {
     moveToUserPage() {
       localStorage.removeItem("editUser");
-      router.push("/user");
+      router.push("/vue-crud-app/user");
     },
     deleteUser(id) {
       this.users = this.users.filter((user) => user.id !== id);

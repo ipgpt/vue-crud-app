@@ -80,7 +80,7 @@ export default {
     saveUsers: Home.methods.saveUsers,
     moveToHomePage() {
       localStorage.removeItem("editUser");
-      router.push("/");
+      router.push("/vue-crud-app/");
     },
     IsJsonString(str) {
       try {

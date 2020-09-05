@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
     <table class="table" v-if="users.length">
       <thead class="table__head">
         <tr class="table__head-item">
@@ -41,6 +41,9 @@ export default {
 </script>
 
 <style>
+.wrapper {
+  overflow: auto;
+}
 .table {
   width: 100%;
   margin: 0 auto;

@@ -27,7 +27,7 @@ export default {
     startEdit() {
       const parsedData = JSON.stringify(this.user);
       localStorage.setItem("editUser", parsedData);
-      router.push("user");
+      router.push("/vue-crud-app/user");
     },
   },
 };

@@ -9,12 +9,17 @@ export default new Router({
   mode: "history",
   routes: [
     {
-      path: "/",
+      path: "/vue-crud-app/",
       component: Home
     },
     {
-      path: "/User",
+      path: "/vue-crud-app/user",
       component: User
+    },
+    {
+      path: "*",
+      name: "catchAll",
+      component: Home
     }
   ]
 });
