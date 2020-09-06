@@ -48,6 +48,11 @@ export default {
       );
       this.saveUsers();
     },
+    checkDuplicateUser(newUser) {
+      return this.users.find(user => user.name === newUser.name &&
+      user.surname === newUser.surname && user.phone === newUser.phone &&
+      user.email === newUser.email);
+    },
     saveUsers() {
       const parsedData = JSON.stringify(this.users);
       localStorage.setItem("users", parsedData);

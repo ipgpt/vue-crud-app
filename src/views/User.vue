@@ -78,6 +78,7 @@ export default {
     addUser: Home.methods.addUser,
     editUser: Home.methods.editUser,
     saveUsers: Home.methods.saveUsers,
+    checkDuplicateUser: Home.methods.checkDuplicateUser,
     moveToHomePage() {
       localStorage.removeItem("editUser");
       router.push("/vue-crud-app/");
@@ -138,13 +139,18 @@ export default {
     },
     onSubmit(savedUser, editStatus) {
       if (this.checkForm(savedUser)) {
-        this.errorForm = "";
+        this.errorForm = [];
         savedUser.id = editStatus ? this.user.id : nanoid();
         if (editStatus) {
           this.editUser(savedUser);
           localStorage.removeItem("user");
         } else {
-          this.addUser(savedUser);
+          if (!this.checkDuplicateUser(savedUser)) {
+            this.addUser(savedUser);
+          } else {
+            this.errorForm.push("Such user already exists.");
+            return;
+          }
         }
         this.userData = {
           name: "",
